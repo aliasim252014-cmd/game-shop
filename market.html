@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Market</title>
+</head>
+<body style="background:#111;color:white;font-family:Arial;">
+
+<div style="max-width:700px;margin:auto;padding-top:50px;">
+
+<h1>Ürün Yükle</h1>
+
+<input id="productName" placeholder="Ürün adı">
+<br><br>
+<input id="file" type="file">
+<br><br>
+<button onclick="upload()">Yükle</button>
+
+<hr>
+
+<h2>Ürünler</h2>
+
+<div id="products"></div>
+
+</div>
+
+<script>
+async function upload(){
+
+const formData = new FormData()
+
+formData.append(
+"productName",
+document.getElementById("productName").value
+)
+
+formData.append(
+"file",
+document.getElementById("file").files[0]
+)
+
+await fetch("/upload", {
+method:"POST",
+body:formData
+})
+
+loadProducts()
+}
+
+async function loadProducts(){
+
+const res = await fetch("/products")
+
+const products = await res.json()
+
+const area = document.getElementById("products")
+
+area.innerHTML = ""
+
+products.forEach(p => {
+
+area.innerHTML += `
+<div style="background:#222;padding:20px;margin-top:10px;border-radius:10px;">
+<h3>${p.name}</h3>
+<a style="color:lime" href="/uploads/${p.file}" download>
+Dosyayı İndir
+</a>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Register</title>
+</head>
+<body style="background:#111;color:white;font-family:Arial;">
+
+<div style="max-width:400px;margin:auto;padding-top:100px;">
+
+<h1>Register</h1>
+
+<input id="username" placeholder="Kullanıcı adı">
+<br><br>
+<input id="password" type="password" placeholder="Şifre">
+<br><br>
+<button onclick="register()">Kayıt Ol</button>
+
+</div>
+
+<script>
+async function register(){
+
+const username = document.getElementById("username").value
+const password = document.getElementById("password").value
+
+const res = await fetch("/register", {
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({ username, password })
+})
+
+const data = await res.json()
+
+if(data.success){
+alert("Kayıt başarılı")
+location.href = "login.html"
+}else{
+alert(data.message)
+}
+}
+</script>
+
+</body>
+</html>
